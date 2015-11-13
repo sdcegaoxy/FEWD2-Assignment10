@@ -8,7 +8,14 @@
     <!-- jQuery library reference. Latest is always referenced from jQuery's CDN. -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
   	<script>
-		// WRITE YOUR CODE HERE
+		$(document).ready(function(){
+             $("#content a").click(function(){
+                var loadid="#"+$(this).attr("id");
+               // alert(loadid);
+                $("#solution").load("./solutions.html "+loadid); 
+            });
+        });
+       
     </script>
 </head>
 

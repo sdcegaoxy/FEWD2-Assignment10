@@ -5,10 +5,46 @@
     <title>Welcome to Vecta Corp.</title>
     <!-- Normal style sheet used for layout and general formatting. -->
     <link href="styles.css" rel="stylesheet">
+    <link href="http://code.jquery.com/ui/1.11.4/themes/cupertino/jquery-ui.css" rel="stylesheet">
     <!-- jQuery library reference. Latest is always referenced from jQuery's CDN. -->
     <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
 	<script>
-		// WRITE YOUR CODE HERE
+		$(document).ready(function(){
+            var list=[];
+            
+            $.ajax({
+                  url: "json.js",
+                  type:"get",
+                  dataType: "json", 
+                  timeout:3000,
+                  beforeSend: function() {
+                        alert("Loading......");
+                      }
+                }).done(function(data) {
+                   $.each( data, function( i,items ) {
+                    for(var x in items) {
+                        //console.log(items[x].name);
+                        list.push("<strong>"+items[x].name+"</strong><br>"+
+                                items[x].title+"<br>"+
+                                items[x].bio+"<br><br>"
+                               );
+                    }
+                });
+               $("#result").html(list.join(""));
+             }).fail(function(){
+                    $("#dialog").dialog({
+                      modal: true,
+                      buttons: {
+                        Ok: function() {
+                          $( this ).dialog( "close" );
+                        }
+                      }
+                    });
+                 });
+              
+
+        });
     </script>
 </head>
 
@@ -31,7 +67,14 @@
 
 		<div id="result"></div>
     </section>
-    
+       
+        <div id="dialog" title="Error" style="display:none;">
+      <p>
+        <span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>
+        There is some general errors in process, Please check.
+      </p>
+       
+    </div>
     <footer></footer>
 </section>
 </body>
